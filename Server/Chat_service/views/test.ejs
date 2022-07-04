@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script> 
+</head>
+<body>
+    <h2>hello</h2>
+    <input type="text" id="chat"><br>
+    <button id="send">send</button>
+    <script>
+        var btn = document.getElementById('send');
+        const socket = io.connect('http://localhost:9000', {
+            query: `token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibWFuaCIsImlhdCI6MTY1NjM5NzI4NiwiZXhwIjoxNjU2NDgzNjg2fQ.1aI_aBSFbDkbQduUxahT7HLIc0MHepg-JkKyvl-eg54`
+        });
+        btn.addEventListener('click', function( e ) {
+            e.preventDefault();
+            var text = document.getElementById("chat").value
+            console.log(text)
+            socket.emit('chat', text );
+        });
+        socket.on('send',(message) => {  
+            var p = document.createElement("p");  
+            p.innerHTML = message;  
+            document.body.appendChild(p);  
+        })
+    </script>
+    
+</body>
+</html>
